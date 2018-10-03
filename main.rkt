@@ -6,15 +6,25 @@
 (require simple-qr)
 (require ts-curric-common)
 
+(require racket/runtime-path)
+(define-runtime-path images "images")
 
-(define COLOR        (circlify "blue" (avatar "images/cpx-color")))
-(define COLOR-BONUS  (circlify "red" (avatar "images/cpx-color")))
-(define SOUND        (circlify "blue" (avatar "images/cpx-sound")))
-(define SOUND-BONUS  (circlify "red" (avatar "images/cpx-sound")))
-(define TROUBLESHOOT (circlify "blue" (avatar "images/cpx-troubleshoot")))
-(define CHALLENGE    (circlify "red" (avatar "images/cpx-challenge")))
-(define BLASTER      (circlify "blue" (avatar "images/cpx-blaster")))
-(define SABER        (circlify "blue" (avatar "images/cpx-saber")))
+(define (local-avatar s)
+  (avatar (~a (path->string images) "/" s)))
+
+
+(define (local-bitmap s)
+  (bitmap (~a (path->string images) "/" s)))
+
+
+(define COLOR        (circlify "blue" (local-avatar "cpx-color")))
+(define COLOR-BONUS  (circlify "red" (local-avatar "cpx-color")))
+(define SOUND        (circlify "blue" (local-avatar "cpx-sound")))
+(define SOUND-BONUS  (circlify "red" (local-avatar "cpx-sound")))
+(define TROUBLESHOOT (circlify "blue" (local-avatar "cpx-troubleshoot")))
+(define CHALLENGE    (circlify "red" (local-avatar "cpx-challenge")))
+(define BLASTER      (circlify "blue" (local-avatar "cpx-blaster")))
+(define SABER        (circlify "blue" (local-avatar "cpx-saber")))
 
 ;;-----------------------------------Quest 0
 (define (open-racket action)
@@ -54,7 +64,7 @@
                                (instruction-basic "You should see the word 'Success' once it is complete.")
                                (instruction-basic "The CPX should start running the code; if it doesn't try one of the troubleshooting steps.")
                                #;(instruction-goal ""))
-                         (scale-to-fit (bitmap "images/click_run.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "click_run.png") 250 250 #:mode 'preserve)))
 
 (define resetting-cpx
     (activity-instructions "Resetting CPX"
@@ -150,7 +160,7 @@
                                (instruction-basic "set-lights = all lights one color.")
                                (instruction-basic "BONUS: Try other colors!")
                                (instruction-goal  "All the lights red on the CPX."))
-                         (scale-to-fit (bitmap "cpx-red.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-red.png") 250 250 #:mode 'preserve)))
 
 (define toggle-lights-img (scale (code (forever
                                         (set-lights red)
@@ -167,7 +177,7 @@
                                (instruction-basic "wait = pause in between.")
                                (instruction-basic "BONUS: More color switches!")
                                (instruction-goal  "The colors turning red to blue."))
-                         (scale-to-fit (bitmap "cpx-red-wait-blue.png") 125 280 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-red-wait-blue.png") 125 280 #:mode 'preserve)))
 
 (define card4-img (code (forever
                          (set-light 0 red)
@@ -366,7 +376,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Edit the code then run.")
                                (instruction-goal  "the siren effect on the CPX."))
-                         (scale-to-fit (bitmap "cpx-forever-siren.png") 125 280 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-forever-siren.png") 125 280 #:mode 'preserve)))
 
 
 (define button-a-img (scale (code \#lang circuit-playground                                     
@@ -383,7 +393,7 @@
                                (instruction-basic "on-down = when button press.")
                                (instruction-basic "BONUS: Try other colors!")
                                (instruction-goal  "the lights red and tone sound."))
-                         (scale-to-fit (bitmap "cpx-button-a.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-button-a.png") 250 250 #:mode 'preserve)))
 
 (define button-b-img (scale (code (on-down button-b
                                     (set-lights blue)
@@ -397,7 +407,7 @@
                                (instruction-image button-b-img 640 150 "")
                                (instruction-basic "BONUS: Try other notes!")
                                (instruction-goal  "the lights blue and tone sound."))
-                         (scale-to-fit (bitmap "cpx-button-b.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-button-b.png") 250 250 #:mode 'preserve)))
 
 (define riff-img (code (define-riff cool-riff
                          (C4 0.125)
@@ -421,7 +431,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Edit the code then run.")
                                (instruction-goal  "the riff playing when you shake the CPX."))
-                         (scale-to-fit (bitmap "cpx-on-shake.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-on-shake.png") 250 250 #:mode 'preserve)))
 
 (define riff-1-img (code (define-riff riff-1
                                (E5 0.1)
@@ -471,7 +481,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Edit the code then run.")
                                (instruction-goal  "the riff playing when you press button A."))
-                         (scale-to-fit (bitmap "cpx-riff-1.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-riff-1.png") 250 250 #:mode 'preserve)))
 
 (define surprise-riff-2
      (activity-instructions "Surprise Riff - 2"
@@ -481,7 +491,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Edit the code then run.")
                                (instruction-goal  "the riff playing when you press button B."))
-                         (scale-to-fit (bitmap "cpx-riff-2.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-riff-2.png") 250 250 #:mode 'preserve)))
 
 
 (define sound-level-img (scale (code (forever
@@ -498,7 +508,7 @@
                                (instruction-basic "mic-level= input sound level.")
                                (instruction-basic "BONUS: Try other levels/colors!")
                                (instruction-goal  "lights turning red/green given the sound level."))
-                         (scale-to-fit (bitmap "cpx-sound-level.png") 125 280 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-sound-level.png") 125 280 #:mode 'preserve)))
 
 
 (define sound-meter-img (code (define (show-volume level)
@@ -519,7 +529,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Edit the code then run.")
                                (instruction-goal  "the lights measuring the sound level."))
-                         (scale-to-fit (bitmap "cpx-sound-meter.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-sound-meter.png") 250 250 #:mode 'preserve)))
                                                  
 ;;;;; ------ Quest 3
 
@@ -549,7 +559,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the Hot Potato code in your project"))
-                         (scale-to-fit (bitmap "hot-potato.gif") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "hot-potato.gif") 250 250 #:mode 'preserve)))
 
 (define hot-potato-a
   (activity-instructions "Hot-Potato: Challenge A"
@@ -565,7 +575,7 @@
                          (list (instruction-basic "Connect and tape the cpx to the battery pack.")
                                (instruction-basic "Optional: wrap the battery pack in construction paper.")
                                (instruction-goal "ask if you can play a quick round of hot potato."))
-                         (scale-to-fit (bitmap "cpx-hot-potato.jpeg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-hot-potato.jpeg") 250 250 #:mode 'preserve)))
 
 (define clap-light-img (code \#lang circuit-playground
 
@@ -604,7 +614,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the Clap Light code in your project"))
-                         (scale-to-fit (bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
 
 (define clap-light-a
   (activity-instructions "Clap Light: Challenge A"
@@ -612,7 +622,7 @@
                          (list (instruction-basic "Change the color of the lights.")
                                (instruction-basic "Play a tone whenever the lights turn on or off.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
 
 (define clap-light-b
   (activity-instructions "Clap Light: Challenge B"
@@ -621,7 +631,7 @@
                                (instruction-basic "Continue turning 1 on untill all the lights are on.")
                                (instruction-basic "Once all the lights are on, play a tone, and start over.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-clap.jpg") 250 250 #:mode 'preserve)))
 
 (define night-light-img (code \#lang circuit-playground
 
@@ -648,7 +658,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the Night Light code in your project"))
-                         (scale-to-fit (bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
 
 (define night-light-a
   (activity-instructions "Night Light: Challenge A"
@@ -657,7 +667,7 @@
                                (instruction-basic "Turn off the lights when the light level is high.")
                                (instruction-basic "Note: They should still turn on when the light level is low.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
 
 (define night-light-b
   (activity-instructions "Night Light: Challenge B"
@@ -668,7 +678,7 @@
                                (instruction-basic "If light level high, turn all off.")
                                (instruction-basic "Read the 'Challenge B' note on the starter code.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx_night_light.png") 250 250 #:mode 'preserve)))
 
 ;;; -------------- QUEST 4
 
@@ -702,7 +712,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the Servo code in your project"))
-                         (scale-to-fit (bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
 
 (define servo-a
   (activity-instructions "Servo: Challenge A"
@@ -712,7 +722,7 @@
                                (instruction-basic "If the sound level is high set the angle to 180.")
                                (instruction-basic "If the sound level is low set the angle to 0.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
 
 (define servo-b
   (activity-instructions "Servo: Challenge B"
@@ -722,7 +732,7 @@
                                (instruction-basic "If sound = high -> lights red.")
                                (instruction-basic "If sound = low -> lights green.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-servo.jpg") 250 250 #:mode 'preserve)))
 
 (define laser-tag-a-img (code \#lang circuit-playground
 
@@ -806,7 +816,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the Laser Tag code in your project"))
-                         (scale-to-fit (bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
 
 (define laser-tag-a
   (activity-instructions "Laser Tag: Challenge A"
@@ -815,7 +825,7 @@
                                (instruction-basic "Test your code by playing with another student.")
                                (instruction-basic "Make sure you have version A in one CPX and version B in the other one.")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
 
 (define laser-tag-b
   (activity-instructions "Laser Tag: Challenge B"
@@ -825,7 +835,7 @@
                                (instruction-basic "Load the code into the CPX.")
                                (instruction-basic "The code works for 3 teams, modify for more!")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-laser-tag.jpg") 250 250 #:mode 'preserve)))
 
 (define led-img (code \#lang circuit-playground
 
@@ -861,7 +871,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "the LED code in your project"))
-                         (scale-to-fit (bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
 
 (define led-a
   (activity-instructions "LED: Challenge A"
@@ -870,7 +880,7 @@
                                (instruction-basic "Make A1 increment the blinking speed by 0.1")
                                (instruction-basic "Make A2 decrease the blinking speed by 0.1")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
 
 (define led-b
   (activity-instructions "LED: Challenge B"
@@ -879,7 +889,7 @@
                                (instruction-basic "Implement the buttons to turn the LED's on, play tones.")
                                (instruction-basic "Come up with a unique circuit design!")
                                (instruction-goal "the completed challenges."))
-                         (scale-to-fit (bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "cpx-led.jpg") 250 250 #:mode 'preserve)))
 
 ;;; -------------- BLASTER
 (define blaster-a
@@ -889,7 +899,7 @@
                                (instruction-basic (codify "tscpx_blaster_a"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-b
   (activity-instructions "Blaster - Part B"
@@ -898,7 +908,7 @@
                                (instruction-basic (codify "tscpx_blaster_b"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-c
   (activity-instructions "Blaster - Part C"
@@ -907,7 +917,7 @@
                                (instruction-basic (codify "tscpx_blaster_c"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-d
   (activity-instructions "Blaster - Part D"
@@ -916,7 +926,7 @@
                                (instruction-basic (codify "tscpx_blaster_d"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-e
   (activity-instructions "Blaster - Part E"
@@ -925,7 +935,7 @@
                                (instruction-basic (codify "tscpx_blaster_e"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-f
   (activity-instructions "Blaster - Part F"
@@ -935,7 +945,7 @@
                                (instruction-basic "Type the code into your file.")
                                (instruction-basic "When your code is ready start building your blaster!")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_build_7.jpg") 250 250 #:mode 'preserve)))
 
 (define target-a
   (activity-instructions "Target - Part A"
@@ -944,7 +954,7 @@
                                (instruction-basic (codify "tscpx_target_a"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_target.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_target.jpg") 250 250 #:mode 'preserve)))
 
 (define target-b
   (activity-instructions "Target - Part B"
@@ -953,7 +963,7 @@
                                (instruction-basic (codify "tscpx_target_b"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blaster_target.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blaster_target.jpg") 250 250 #:mode 'preserve)))
 
 (define blaster-disassemble
   (activity-instructions "Blaster - Disassembly"
@@ -965,9 +975,9 @@
                              (instruction-basic "Reattach your new handle.")
                              (instruction-goal "your new handle attached."))
                           (vc-append 10
-                              (scale-to-fit (bitmap "blaster_disassembly_1.jpg") 300 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "blaster_disassembly_2.jpg") 300 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "blaster_disassembly_3.jpg") 300 100 #:mode 'preserve))))
+                              (scale-to-fit (local-bitmap "blaster_disassembly_1.jpg") 300 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "blaster_disassembly_2.jpg") 300 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "blaster_disassembly_3.jpg") 300 100 #:mode 'preserve))))
 
 ;;; -------------- SABER
 (define saber-a
@@ -977,7 +987,7 @@
                                (instruction-basic (codify "tscpx_saber_a"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define saber-b
   (activity-instructions "Saber - Part B"
@@ -986,7 +996,7 @@
                                (instruction-basic (codify "tscpx_saber_b"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define saber-c
   (activity-instructions "Saber - Part C"
@@ -995,7 +1005,7 @@
                                (instruction-basic (codify "tscpx_saber_c"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define saber-d
   (activity-instructions "Saber - Part D"
@@ -1004,7 +1014,7 @@
                                (instruction-basic (codify "tscpx_saber_d"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define saber-e
   (activity-instructions "Saber - Part E"
@@ -1013,7 +1023,7 @@
                                (instruction-basic (codify "tscpx_saber_e"))
                                (instruction-basic "Type the code into your file.")
                                (instruction-goal "Your code working on the CPX."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define build-saber
   (activity-instructions "Build Lightsaber"
@@ -1021,7 +1031,7 @@
                          (list (instruction-basic "Get the instructions, gather supplies.")
                                (instruction-basic "Build your lightsaber!")
                                (instruction-goal "Your finished lightsaber."))
-                         (scale-to-fit (bitmap "blade.png") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "blade.png") 250 250 #:mode 'preserve)))
 
 (define build-blade
   (activity-instructions "Build the Lightsaber Blade"
@@ -1031,9 +1041,9 @@
                              (instruction-basic "Tape a piece of aluminum foil tape to cover the small end. This will reflect light back into the blade.")
                              (instruction-goal "your completed blade"))
                           (vc-append 10
-                              (scale-to-fit (bitmap "build_blade1.jpg") 250 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "build_blade2.jpg") 250 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "build_blade3.jpg") 250 100 #:mode 'preserve))))
+                              (scale-to-fit (local-bitmap "build_blade1.jpg") 250 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "build_blade2.jpg") 250 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "build_blade3.jpg") 250 100 #:mode 'preserve))))
 
 (define attach-blade
   (activity-instructions "Attach the Lightsaber Blade"
@@ -1045,9 +1055,9 @@
                              (instruction-basic "Wiggle the blade into your hilt until it is all the way down.")
                              (instruction-goal "your completed blade."))
                           (vc-append 10
-                              (scale-to-fit (bitmap "attach_blade1.jpg") 250 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "attach_blade2.jpg") 250 100 #:mode 'preserve)
-                              (scale-to-fit (bitmap "attach_blade3.jpg") 250 100 #:mode 'preserve))))
+                              (scale-to-fit (local-bitmap "attach_blade1.jpg") 250 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "attach_blade2.jpg") 250 100 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "attach_blade3.jpg") 250 100 #:mode 'preserve))))
 
 (define lightsaber-disassemble
   (activity-instructions "Lightsaber - Disassembly"
@@ -1058,7 +1068,7 @@
                              (instruction-basic "Remove all electronics.")
                              (instruction-basic "Re-tape your lightsaber")
                              (instruction-goal "your lightsaber with electronics removed"))
-                          (scale-to-fit (bitmap "lightsaber_disassemble.jpg") 250 250 #:mode 'preserve)))
+                          (scale-to-fit (local-bitmap "lightsaber_disassemble.jpg") 250 250 #:mode 'preserve)))
 
 ;; ----------------------- DROID
 (define droid-touch-sensor
@@ -1068,7 +1078,7 @@
                              (instruction-basic "Use two alligator clips to connect to each piece of foil to GND and A7")
                              (instruction-basic "Wrap the wires around the battery when inserting into the body.")
                              (instruction-goal "the tickle effects."))
-                         (scale-to-fit (bitmap "droid_touch_sensor.jpg") 250 250 #:mode 'preserve)))
+                         (scale-to-fit (local-bitmap "droid_touch_sensor.jpg") 250 250 #:mode 'preserve)))
 
 (define droid-disassemble
   (activity-instructions "Droid - Disassembly"
@@ -1079,8 +1089,8 @@
                              (instruction-basic "Tape a baseplate to the top and re-attach the head.")
                              (instruction-goal "the electronics removed."))
                           (vc-append 10
-                              (scale-to-fit (bitmap "droid_disassemble1.jpg") 250 250 #:mode 'preserve)
-                              (scale-to-fit (bitmap "droid_disassemble2.jpg") 250 250 #:mode 'preserve))))
+                              (scale-to-fit (local-bitmap "droid_disassemble1.jpg") 250 250 #:mode 'preserve)
+                              (scale-to-fit (local-bitmap "droid_disassemble2.jpg") 250 250 #:mode 'preserve))))
 ;; COMPLETE DAYS
 
 (define quest0-cpx
@@ -1202,7 +1212,7 @@
      (make-picts "blue"
                  "Q0-"
                  quest0-cpx
-                 (settings (bg "cpx")
+                 (settings (bg (local-bitmap "bg-cpx.png"))
                            TROUBLESHOOT
                            TROUBLESHOOT
                            TROUBLESHOOT)))
@@ -1211,29 +1221,29 @@
   (make-picts "blue"
               "Q1-"
               quest1-cpx
-              (settings (bg "cpx")
+              (settings (bg (local-bitmap "bg-cpx.png"))
                         COLOR
                         COLOR-BONUS
                         COLOR-BONUS)))
 
 (define (quest2)
-  (make-picts "blue" "Q2-" quest2-cpx (settings (bg "cpx") SOUND SOUND-BONUS SOUND-BONUS)))
+  (make-picts "blue" "Q2-" quest2-cpx (settings (bg (local-bitmap "bg-cpx.png")) SOUND SOUND-BONUS SOUND-BONUS)))
 
 (define (quest3)
-  (make-picts "blue" "Q3-" quest3-cpx (settings (bg "cpx") CHALLENGE CHALLENGE CHALLENGE)))
+  (make-picts "blue" "Q3-" quest3-cpx (settings (bg (local-bitmap "bg-cpx.png")) CHALLENGE CHALLENGE CHALLENGE)))
 
 (define (quest4)
-  (make-picts "blue" "Q4-" quest4-cpx (settings (bg "cpx") CHALLENGE CHALLENGE CHALLENGE)))
+  (make-picts "blue" "Q4-" quest4-cpx (settings (bg (local-bitmap "bg-cpx.png")) CHALLENGE CHALLENGE CHALLENGE)))
 
 (define (quest5)
-  (make-picts "blue" "B-" blaster-cpx (settings (bg "cpx") BLASTER BLASTER BLASTER)))
+  (make-picts "blue" "B-" blaster-cpx (settings (bg (local-bitmap "bg-cpx.png")) BLASTER BLASTER BLASTER)))
 
 (define (quest6)
-  (make-picts "blue" "S-" saber-cpx (settings (bg "cpx") SABER SABER SABER)))
+  (make-picts "blue" "S-" saber-cpx (settings (bg (local-bitmap "bg-cpx.png")) SABER SABER SABER)))
 
 
 (define (quest7)
-  (make-picts "blue" "D-" droid-cpx (settings (bg "cpx") BLASTER BLASTER BLASTER)))
+  (make-picts "blue" "D-" droid-cpx (settings (bg (local-bitmap "bg-cpx.png")) BLASTER BLASTER BLASTER)))
 
 (provide quests)
 (define (quests)
