@@ -12,8 +12,10 @@
 (define (local-avatar s)
   (avatar (~a (path->string images) "/" s)))
 
+
 (define (local-bitmap s)
   (bitmap (~a (path->string images) "/" s)))
+
 
 (define COLOR        (circlify "blue" (local-avatar "cpx-color")))
 (define COLOR-BONUS  (circlify "red" (local-avatar "cpx-color")))
