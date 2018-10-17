@@ -1,0 +1,11 @@
+#lang circuit-playground
+                                  
+(define (sparkles)
+  (repeat 5
+          (set-lights black)
+          (set-lights (pick-random 0 10) blue))
+
+  (forever
+                                  (if (shake 15)
+                                      (sparkles)
+                                      (set-lights black)))
