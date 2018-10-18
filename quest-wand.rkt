@@ -40,46 +40,42 @@
                          (video-qr "http://bit.ly/2HV5yHn")))
 
 ; ---- Quest Card 2
-(define-image-file img images
-    (scale (code \#lang circuit-playground
+(define-image-file sparkles-img images
+  (scale (code \#lang circuit-playground
 
-                 code:blank
+               code:blank
                                   
-                 (define (sparkles)
-                   (repeat 5
-                           (set-lights black)
-                           (set-lights (pick-random 0 10) blue)))
-                 ) 2 )
-    )
+               (define (sparkles)
+                 (repeat 5
+                         (set-lights black)
+                         (set-lights (pick-random 0 10) blue)))
+               ) 2 ))
 
-(define (sparkles)
-  
+(define sparkles
   (activity-instructions "Sparkling Lights"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This code will create a 'sparkles' function.")
                                (instruction-goal  "The code typed in your file"))
-                         ;(image-qr "https://bit.ly/2NLQGfS")))
-                         (launcher-img img)))
+                         (launcher-img sparkles-img)))
 
 ; ---- Quest Card 3
-(define (add-forever)
-  (define img
-    (scale (code (forever
-                  (if (shake 15)
-                      (sparkles)
-                      (set-lights black)))
-                 ) 2 )
-    )
+(define-image-file forever-img images
+  (scale (code (forever
+                (if (shake 15)
+                    (sparkles)
+                    (set-lights black)))
+               ) 2 ))
+
+(define add-forever
   (activity-instructions "Create a forever loop"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will trigger your 'sparkles' when you shake the CPX.")
                                (instruction-goal  "Your CPX flashing blue lights when shaking"))
-                         (image-qr "https://bit.ly/2CT8CUU")))
-                         ;(launcher-img img)))
+                         (launcher-img forever-img)))
 
 ; ---- Quest Card 4
 (define colors-blank (cc-superimpose
@@ -87,89 +83,84 @@
                             (set-lights (pick-random 0 10) white))
                       (code-blank 270 30)))
 
-(define more-colors-img (code (define (sparkles)
-                                (repeat 5
-                                        (set-lights black)
-                                        (set-lights (pick-random 0 10) blue)
-                                        #,colors-blank))
-                              ))
+(define card-4-img (code (define (sparkles)
+                           (repeat 5
+                                   (set-lights black)
+                                   (set-lights (pick-random 0 10) blue)
+                                   #,colors-blank))))
 
-(define (add-more-colors)
-  (define img
-    (scale 
-     (code+hints more-colors-img
-                 (list colors-blank
-                       (hint "NEW CODE")))
-     2)
-    )
+(define-image-file more-colors-img images
+  (scale 
+   (code+hints card-4-img
+               (list colors-blank
+                     (hint "NEW CODE")))
+   2))
+
+(define add-more-colors
   (activity-instructions "Add more colors"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will add different colors to your sparkles.")
                                (instruction-goal  "Your CPX flashing random colors when shaking"))
-                         (image-qr "https://bit.ly/2OyjJJp")))
-                         ;(launcher-img img)))
+                         (launcher-img more-colors-img)))
 
 ; ---- Quest Card 5
 (define tone-blank (cc-superimpose
                     (code (play-tone A5 0.125))
                     (code-blank 150 15)))
 
-(define add-tone-img (code (define (sparkles)
+(define card-5-img (code (define (sparkles)
                              (repeat 5
                                      (set-lights black)
                                      (set-lights (pick-random 0 10) blue)
                                      (set-lights (pick-random 0 10) red)
                                      (set-lights (pick-random 0 10) white)
-                                     #,tone-blank))
-                           ))
+                                     #,tone-blank)) ))
 
-(define (add-tone)
-  (define img
-    (scale
-     (code+hints add-tone-img
-                 (list tone-blank
-                       (hint "NEW CODE")))
-     2)
-    )
+(define-image-file add-tone-img images
+  (scale
+   (code+hints card-5-img
+               (list tone-blank
+                     (hint "NEW CODE")))
+   2))
+
+(define add-tone
   (activity-instructions "Add a tone"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will play a tone while changing lights.")
                                (instruction-goal  "Your CPX flashing a playing a tone."))
-                         (image-qr "https://bit.ly/2RWYM92")))
-                         ;(launcher-img img)))
+                         (launcher-img add-tone-img)))
 
 ; ---- Quest Card 6
-(define (create-riff)
-  (define img
-    (scale (code (define-riff magic-sound
-                   (C4 0.125)
-                   (C4 0.125)
-                   (E5 0.125)
-                   (F5 0.125)
-                   (REST 0.125)
-                   (A5 0.125)
-                   (A5 0.125))
-                 ) 2 )
-    )
+(define-image-file create-riff-img images
+  (scale (code (define-riff magic-sound
+                 (C4 0.125)
+                 (C4 0.125)
+                 (E5 0.125)
+                 (F5 0.125)
+                 (REST 0.125)
+                 (A5 0.125)
+                 (A5 0.125))
+               ) 2 ))
+
+(define create-riff
   (activity-instructions "Create a Riff"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will create a riff with tones.")
                                (instruction-goal  "Your new code in your file."))
-                         (image-qr "https://bit.ly/2COAx8x")))
-                         ;(launcher-img img)))
+                         (launcher-img create-riff-img)))
 
 ; ---- Quest Card 7
 (define riff-blank (cc-superimpose
                     (code (play-riff magic-sound))
                     (code-blank 170 15)))
 
-(define add-riff-img (code (define (sparkles)
+(define card-7-img (code (define (sparkles)
                              (repeat 5
                                      (set-lights black)
                                      (set-lights (pick-random 0 10) blue)
@@ -179,21 +170,21 @@
                              #,riff-blank)
                            ))
 
-(define (add-riff)
-  (define img
+(define-image-file add-riff-img images
     (scale
-     (code+hints add-riff-img
+     (code+hints card-7-img
                  (list riff-blank
                        (hint "NEW CODE")))
      2))
+
+(define add-riff
   (activity-instructions "Add the Riff to the loop"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will play a riff at the end of the sparkles.")
                                (instruction-goal  "Your CPX playing a riff at the end."))
-                         (image-qr "https://bit.ly/2CPbG4A")))
-                          ;(launcher-img img)))
+                         (launcher-img add-riff-img)))
 
 ; ---- Quest Card 8
 (define different-colors
@@ -238,12 +229,12 @@
 (define code-wand
   (list
    (with-award 0 (open-racket "save"))
-   (with-award 1 (sparkles))
-   (with-award 1 (add-forever))
-   (with-award 1 (add-more-colors))
-   (with-award 1 (add-tone))
-   (with-award 1 (create-riff))
-   (with-award 1 (add-riff))
+   (with-award 1 sparkles)
+   (with-award 1 add-forever)
+   (with-award 1 add-more-colors)
+   (with-award 1 add-tone)
+   (with-award 1 create-riff)
+   (with-award 1 add-riff)
    (choose "any"
            (list                      
             (with-award 1 different-colors)
