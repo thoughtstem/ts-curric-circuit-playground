@@ -296,9 +296,9 @@
   )
 
 ; ---- Provide Quests
-;(provide quests)
+(provide quest-wand)
 
-(define (wand-quest)
+(define (quest-wand)
   (append (code-cards)
           (craft-cards)
           )
