@@ -1,6 +1,7 @@
 #lang slideshow
 
 (require ts-curric-common)
+
 (require (except-in ts-racket
                     scale-to-fit))
 
@@ -24,6 +25,102 @@
 (define WAND        (circlify "blue" (local-avatar "cpx-wand")))
 (define WAND-BONUS  (circlify "red" (local-avatar "cpx-wand")))
 
+; --- Code Images
+; --------- Card #2
+(define sparkles-img
+  (scale (code \#lang circuit-playground
+
+               code:blank
+                                  
+               (define (sparkles)
+                 (repeat 5
+                         (set-lights black)
+                         (set-lights (pick-random 0 10) blue)))
+               ) 2 )
+  )
+
+; --------- Card #3
+(define forever-img
+  (scale (code (forever
+                (if (shake 15)
+                    (sparkles)
+                    (set-lights black)))
+               ) 2 )
+  )
+
+; --------- Card #4
+(define colors-blank (cc-superimpose
+                      (code (set-lights (pick-random 0 10) red)
+                            (set-lights (pick-random 0 10) white))
+                      (code-blank 270 30)))
+
+(define more-colors-img (code (define (sparkles)
+                                (repeat 5
+                                        (set-lights black)
+                                        (set-lights (pick-random 0 10) blue)
+                                        #,colors-blank))
+                              ))
+
+(scale 
+ (code+hints more-colors-img
+             (list colors-blank
+                   (hint "NEW CODE")))
+ 2)
+
+; --------- Card #5
+(define tone-blank (cc-superimpose
+                    (code (play-tone A5 0.125))
+                    (code-blank 150 15)))
+
+(define add-tone-img (code (define (sparkles)
+                             (repeat 5
+                                     (set-lights black)
+                                     (set-lights (pick-random 0 10) blue)
+                                     (set-lights (pick-random 0 10) red)
+                                     (set-lights (pick-random 0 10) white)
+                                     #,tone-blank))
+                           ))
+
+(scale
+ (code+hints add-tone-img
+             (list tone-blank
+                   (hint "NEW CODE")))
+ 2)
+
+; --------- Card #6
+(define riff-img
+  (scale (code (define-riff magic-sound
+                 (C4 0.125)
+                 (C4 0.125)
+                 (E5 0.125)
+                 (F5 0.125)
+                 (REST 0.125)
+                 (A5 0.125)
+                 (A5 0.125))
+               ) 2 )
+  )
+
+; --------- Card #7
+(define riff-blank (cc-superimpose
+                    (code (play-riff magic-sound))
+                    (code-blank 170 15)))
+
+(define add-riff-img (code (define (sparkles)
+                             (repeat 5
+                                     (set-lights black)
+                                     (set-lights (pick-random 0 10) blue)
+                                     (set-lights (pick-random 0 10) red)
+                                     (set-lights (pick-random 0 10) white)
+                                     (play-tone A5 0.125))
+                             #,riff-blank)
+                           ))
+
+(scale
+ (code+hints add-riff-img
+             (list riff-blank
+                   (hint "NEW CODE")))
+ 2)
+
 ; ---- Quest Cards
 (define (open-racket action)
   (activity-instructions (cond
@@ -38,14 +135,26 @@
                                (instruction-goal "your racket file opened."))
                          (video-qr "http://bit.ly/2HV5yHn")))
 
-(define sparkles
+(define (sparkles)
+  (define img
+    (scale (code \#lang circuit-playground
+
+                 code:blank
+                                  
+                 (define (sparkles)
+                   (repeat 5
+                           (set-lights black)
+                           (set-lights (pick-random 0 10) blue)))
+                 ) 2 )
+    )
   (activity-instructions "Sparkling Lights"
                          '()
                          (list (instruction-basic "Scan the QR code.")
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This code will create a 'sparkles' function.")
                                (instruction-goal  "The code typed in your file"))
-                         (image-qr "https://bit.ly/2NLQGfS")))
+                         ;(image-qr "https://bit.ly/2NLQGfS")))
+                         (launcher-img img)))
 
 (define add-forever
   (activity-instructions "Create a forever loop"
@@ -127,106 +236,11 @@
                                (instruction-goal "add the code to your CPX"))
                          (scale-to-fit (local-bitmap "cpx-wand-avatar.png") 300 300 #:mode 'preserve)))
 
-; --- Code Images
-; --------- Card #2
-;(define sparkles-img
-  (scale (code \#lang circuit-playground
-
-               code:blank
-                                  
-               (define (sparkles)
-                 (repeat 5
-                         (set-lights black)
-                         (set-lights (pick-random 0 10) blue)))
-               ) 2 )
-;  )
-
-; --------- Card #3
-;(define forever-img
-(scale (code (forever
-              (if (shake 15)
-                  (sparkles)
-                  (set-lights black)))
-             ) 2 )
- ; )
-
-; --------- Card #4
-(define colors-blank (cc-superimpose
-                      (code (set-lights (pick-random 0 10) red)
-                            (set-lights (pick-random 0 10) white))
-                      (code-blank 270 30)))
-
-(define more-colors-img (code (define (sparkles)
-                                (repeat 5
-                                        (set-lights black)
-                                        (set-lights (pick-random 0 10) blue)
-                                        #,colors-blank))
-                              ))
-
-(scale 
- (code+hints more-colors-img
-             (list colors-blank
-                   (hint "NEW CODE")))
- 2)
-
-; --------- Card #5
-(define tone-blank (cc-superimpose
-                    (code (play-tone A5 0.125))
-                    (code-blank 150 15)))
-
-(define add-tone-img (code (define (sparkles)
-                             (repeat 5
-                                     (set-lights black)
-                                     (set-lights (pick-random 0 10) blue)
-                                     (set-lights (pick-random 0 10) red)
-                                     (set-lights (pick-random 0 10) white)
-                                     #,tone-blank))
-                           ))
-
-(scale
- (code+hints add-tone-img
-             (list tone-blank
-                   (hint "NEW CODE")))
- 2)
-
-; --------- Card #6
-;(define riff-img
-(scale (code (define-riff magic-sound
-               (C4 0.125)
-               (C4 0.125)
-               (E5 0.125)
-               (F5 0.125)
-               (REST 0.125)
-               (A5 0.125)
-               (A5 0.125))
-             ) 2 )
-;)
-
-; --------- Card #7
-(define riff-blank (cc-superimpose
-                    (code (play-riff magic-sound))
-                    (code-blank 170 15)))
-
-(define add-riff-img (code (define (sparkles)
-                             (repeat 5
-                                     (set-lights black)
-                                     (set-lights (pick-random 0 10) blue)
-                                     (set-lights (pick-random 0 10) red)
-                                     (set-lights (pick-random 0 10) white)
-                                     (play-tone A5 0.125))
-                             #,riff-blank)
-                           ))
-
-(scale
- (code+hints add-riff-img
-             (list riff-blank
-                   (hint "NEW CODE")))
- 2)
 ; ---- Complete Quest
 (define code-wand
   (list
    (with-award 0 (open-racket "save"))
-   (with-award 1 sparkles)
+   (with-award 1 (sparkles))
    (with-award 1 add-forever)
    (with-award 1 add-more-colors)
    (with-award 1 add-tone)
@@ -255,27 +269,38 @@
             ))
    ))
 
-;(define (quest)
-(cards->pages
- (make-picts "blue" "3A-" code-wand (settings
-                                     (cc-superimpose
-                                      (bg (local-bitmap "bg-cpx.png"))
-                                      (rectangle 1100 813))
-                                     WAND WAND-BONUS WAND-BONUS)
-             )
- )
+(define (shrink i)
+  (reusable-material
+   (scale i 0.5)))
 
-(cards->pages
- (make-picts "blue" "3B-" build-wand (settings
-                                      (cc-superimpose
-                                       (bg (local-bitmap "bg-cpx.png"))
-                                       (rectangle 1100 813))
-                                      WAND WAND-BONUS WAND-BONUS)
-             )
- )
+(define (code-cards)
+  (map shrink
+       ;(cards->pages
+       (make-picts "blue" "3A-" code-wand (settings
+                                           (cc-superimpose
+                                            (bg (local-bitmap "bg-cpx.png"))
+                                            (rectangle 1100 813))
+                                           WAND WAND-BONUS WAND-BONUS))
+       ; )
+       ))
+
+
+(define (craft-cards)
+  (map shrink
+       ;(cards->pages
+       (make-picts "blue" "3B-" build-wand (settings
+                                            (cc-superimpose
+                                             (bg (local-bitmap "bg-cpx.png"))
+                                             (rectangle 1100 813))
+                                            WAND WAND-BONUS WAND-BONUS))
+       ;)
+       ))
+
 ; ---- Provide Quests
 ;(provide quests)
 
-#;(define (quests)
-    (list (quest)
-          ))
+(define (wand-quest)
+  (append (code-cards)
+          (craft-cards)
+          )
+  )
