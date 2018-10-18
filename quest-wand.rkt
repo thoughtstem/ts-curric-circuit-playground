@@ -25,30 +25,63 @@
 (define WAND        (circlify "blue" (local-avatar "cpx-wand")))
 (define WAND-BONUS  (circlify "red" (local-avatar "cpx-wand")))
 
-; --- Code Images
-; --------- Card #2
-(define sparkles-img
-  (scale (code \#lang circuit-playground
+; ---- Quest Card 1
+(define (open-racket action)
+  (activity-instructions (cond
+                           [(eq? action "save") "Open DrRacket and Save File"]
+                           [(eq? action "load") "Open DrRacket and Open File"])
+                         '()
+                         (list (instruction-open "DrRacket")
+                               (cond
+                                 [(eq? action "save") (instruction-basic "Save your blank file, make sure to add '.rkt' at the end.")]
+                                 [(eq? action "load") (instruction-basic "Open your racket file from:")])
+                               (instruction-folder "Desktop/SAVE_MY_WORK")
+                               (instruction-goal "your racket file opened."))
+                         (video-qr "http://bit.ly/2HV5yHn")))
 
-               code:blank
+; ---- Quest Card 2
+(define-image-file img images
+    (scale (code \#lang circuit-playground
+
+                 code:blank
                                   
-               (define (sparkles)
-                 (repeat 5
-                         (set-lights black)
-                         (set-lights (pick-random 0 10) blue)))
-               ) 2 )
-  )
+                 (define (sparkles)
+                   (repeat 5
+                           (set-lights black)
+                           (set-lights (pick-random 0 10) blue)))
+                 ) 2 )
+    )
 
-; --------- Card #3
-(define forever-img
-  (scale (code (forever
-                (if (shake 15)
-                    (sparkles)
-                    (set-lights black)))
-               ) 2 )
-  )
+(define (sparkles)
+  
+  (activity-instructions "Sparkling Lights"
+                         '()
+                         (list (instruction-basic "Scan the QR code.")
+                               (instruction-basic "Type the new code in your file.")
+                               (instruction-basic "This code will create a 'sparkles' function.")
+                               (instruction-goal  "The code typed in your file"))
+                         ;(image-qr "https://bit.ly/2NLQGfS")))
+                         (launcher-img img)))
 
-; --------- Card #4
+; ---- Quest Card 3
+(define (add-forever)
+  (define img
+    (scale (code (forever
+                  (if (shake 15)
+                      (sparkles)
+                      (set-lights black)))
+                 ) 2 )
+    )
+  (activity-instructions "Create a forever loop"
+                         '()
+                         (list (instruction-basic "Scan the QR code.")
+                               (instruction-basic "Type the new code in your file.")
+                               (instruction-basic "This will trigger your 'sparkles' when you shake the CPX.")
+                               (instruction-goal  "Your CPX flashing blue lights when shaking"))
+                         (image-qr "https://bit.ly/2CT8CUU")))
+                         ;(launcher-img img)))
+
+; ---- Quest Card 4
 (define colors-blank (cc-superimpose
                       (code (set-lights (pick-random 0 10) red)
                             (set-lights (pick-random 0 10) white))
@@ -61,13 +94,24 @@
                                         #,colors-blank))
                               ))
 
-(scale 
- (code+hints more-colors-img
-             (list colors-blank
-                   (hint "NEW CODE")))
- 2)
+(define (add-more-colors)
+  (define img
+    (scale 
+     (code+hints more-colors-img
+                 (list colors-blank
+                       (hint "NEW CODE")))
+     2)
+    )
+  (activity-instructions "Add more colors"
+                         '()
+                         (list (instruction-basic "Scan the QR code.")
+                               (instruction-basic "Type the new code in your file.")
+                               (instruction-basic "This will add different colors to your sparkles.")
+                               (instruction-goal  "Your CPX flashing random colors when shaking"))
+                         (image-qr "https://bit.ly/2OyjJJp")))
+                         ;(launcher-img img)))
 
-; --------- Card #5
+; ---- Quest Card 5
 (define tone-blank (cc-superimpose
                     (code (play-tone A5 0.125))
                     (code-blank 150 15)))
@@ -81,26 +125,46 @@
                                      #,tone-blank))
                            ))
 
-(scale
- (code+hints add-tone-img
-             (list tone-blank
-                   (hint "NEW CODE")))
- 2)
+(define (add-tone)
+  (define img
+    (scale
+     (code+hints add-tone-img
+                 (list tone-blank
+                       (hint "NEW CODE")))
+     2)
+    )
+  (activity-instructions "Add a tone"
+                         '()
+                         (list (instruction-basic "Scan the QR code.")
+                               (instruction-basic "Type the new code in your file.")
+                               (instruction-basic "This will play a tone while changing lights.")
+                               (instruction-goal  "Your CPX flashing a playing a tone."))
+                         (image-qr "https://bit.ly/2RWYM92")))
+                         ;(launcher-img img)))
 
-; --------- Card #6
-(define riff-img
-  (scale (code (define-riff magic-sound
-                 (C4 0.125)
-                 (C4 0.125)
-                 (E5 0.125)
-                 (F5 0.125)
-                 (REST 0.125)
-                 (A5 0.125)
-                 (A5 0.125))
-               ) 2 )
-  )
+; ---- Quest Card 6
+(define (create-riff)
+  (define img
+    (scale (code (define-riff magic-sound
+                   (C4 0.125)
+                   (C4 0.125)
+                   (E5 0.125)
+                   (F5 0.125)
+                   (REST 0.125)
+                   (A5 0.125)
+                   (A5 0.125))
+                 ) 2 )
+    )
+  (activity-instructions "Create a Riff"
+                         '()
+                         (list (instruction-basic "Scan the QR code.")
+                               (instruction-basic "Type the new code in your file.")
+                               (instruction-basic "This will create a riff with tones.")
+                               (instruction-goal  "Your new code in your file."))
+                         (image-qr "https://bit.ly/2COAx8x")))
+                         ;(launcher-img img)))
 
-; --------- Card #7
+; ---- Quest Card 7
 (define riff-blank (cc-superimpose
                     (code (play-riff magic-sound))
                     (code-blank 170 15)))
@@ -115,84 +179,13 @@
                              #,riff-blank)
                            ))
 
-(scale
- (code+hints add-riff-img
-             (list riff-blank
-                   (hint "NEW CODE")))
- 2)
-
-; ---- Quest Cards
-(define (open-racket action)
-  (activity-instructions (cond
-                           [(eq? action "save") "Open DrRacket and Save File"]
-                           [(eq? action "load") "Open DrRacket and Open File"])
-                         '()
-                         (list (instruction-open "DrRacket")
-                               (cond
-                                 [(eq? action "save") (instruction-basic "Save your blank file, make sure to add '.rkt' at the end.")]
-                                 [(eq? action "load") (instruction-basic "Open your racket file from:")])
-                               (instruction-folder "Desktop/SAVE_MY_WORK")
-                               (instruction-goal "your racket file opened."))
-                         (video-qr "http://bit.ly/2HV5yHn")))
-
-(define (sparkles)
+(define (add-riff)
   (define img
-    (scale (code \#lang circuit-playground
-
-                 code:blank
-                                  
-                 (define (sparkles)
-                   (repeat 5
-                           (set-lights black)
-                           (set-lights (pick-random 0 10) blue)))
-                 ) 2 )
-    )
-  (activity-instructions "Sparkling Lights"
-                         '()
-                         (list (instruction-basic "Scan the QR code.")
-                               (instruction-basic "Type the new code in your file.")
-                               (instruction-basic "This code will create a 'sparkles' function.")
-                               (instruction-goal  "The code typed in your file"))
-                         ;(image-qr "https://bit.ly/2NLQGfS")))
-                         (launcher-img img)))
-
-(define add-forever
-  (activity-instructions "Create a forever loop"
-                         '()
-                         (list (instruction-basic "Scan the QR code.")
-                               (instruction-basic "Type the new code in your file.")
-                               (instruction-basic "This will trigger your 'sparkles' when you shake the CPX.")
-                               (instruction-goal  "Your CPX flashing blue lights when shaking"))
-                         (image-qr "https://bit.ly/2CT8CUU")))
-
-(define add-more-colors
-  (activity-instructions "Add more colors"
-                         '()
-                         (list (instruction-basic "Scan the QR code.")
-                               (instruction-basic "Type the new code in your file.")
-                               (instruction-basic "This will add different colors to your sparkles.")
-                               (instruction-goal  "Your CPX flashing random colors when shaking"))
-                         (image-qr "https://bit.ly/2OyjJJp")))
-
-(define add-tone
-  (activity-instructions "Add a tone"
-                         '()
-                         (list (instruction-basic "Scan the QR code.")
-                               (instruction-basic "Type the new code in your file.")
-                               (instruction-basic "This will play a tone while changing lights.")
-                               (instruction-goal  "Your CPX flashing a playing a tone."))
-                         (image-qr "https://bit.ly/2RWYM92")))
-
-(define create-riff
-  (activity-instructions "Create a Riff"
-                         '()
-                         (list (instruction-basic "Scan the QR code.")
-                               (instruction-basic "Type the new code in your file.")
-                               (instruction-basic "This will create a riff with tones.")
-                               (instruction-goal  "Your new code in your file."))
-                         (image-qr "https://bit.ly/2COAx8x")))
-
-(define add-riff
+    (scale
+     (code+hints add-riff-img
+                 (list riff-blank
+                       (hint "NEW CODE")))
+     2))
   (activity-instructions "Add the Riff to the loop"
                          '()
                          (list (instruction-basic "Scan the QR code.")
@@ -200,7 +193,9 @@
                                (instruction-basic "This will play a riff at the end of the sparkles.")
                                (instruction-goal  "Your CPX playing a riff at the end."))
                          (image-qr "https://bit.ly/2CPbG4A")))
+                          ;(launcher-img img)))
 
+; ---- Quest Card 8
 (define different-colors
   (activity-instructions "Different Colors"
                          '()
@@ -210,6 +205,7 @@
                                (instruction-goal  "your CPX flashing different colors"))
                          (scale-to-fit (local-bitmap "ts-magic-loader.png") 300 300 #:mode 'preserve)))
 
+; ---- Quest Card 9
 (define different-riff
   (activity-instructions "Different Riff"
                          '()
@@ -219,6 +215,7 @@
                                (instruction-goal  "your CPX playing different tones"))
                          (scale-to-fit (local-bitmap "ts-magic-loader.png") 300 300 #:mode 'preserve)))
 
+; ---- Quest B Card 1
 (define wand-instructions
   (activity-instructions "Wand Instructions"
                          '()
@@ -227,6 +224,7 @@
                                (instruction-goal  "your completed wand"))
                          (image-qr "https://bit.ly/2pYfTus")))
 
+; ---- Quest B Card 2
 (define complete-wand-code
   (activity-instructions "Wand Code (Complete)"
                          '()
@@ -241,11 +239,11 @@
   (list
    (with-award 0 (open-racket "save"))
    (with-award 1 (sparkles))
-   (with-award 1 add-forever)
-   (with-award 1 add-more-colors)
-   (with-award 1 add-tone)
-   (with-award 1 create-riff)
-   (with-award 1 add-riff)
+   (with-award 1 (add-forever))
+   (with-award 1 (add-more-colors))
+   (with-award 1 (add-tone))
+   (with-award 1 (create-riff))
+   (with-award 1 (add-riff))
    (choose "any"
            (list                      
             (with-award 1 different-colors)
@@ -276,25 +274,26 @@
 (define (code-cards)
   (map shrink
        ;(cards->pages
-       (make-picts "blue" "3A-" code-wand (settings
-                                           (cc-superimpose
-                                            (bg (local-bitmap "bg-cpx.png"))
-                                            (rectangle 1100 813))
-                                           WAND WAND-BONUS WAND-BONUS))
-       ; )
-       ))
-
+       (map (curryr frame #:line-width 2)
+            (map (curryr inset 40)
+                 (make-picts "blue" "3A-" code-wand (settings (bg (local-bitmap "bg-cpx.png"))
+                                                              WAND WAND-BONUS WAND-BONUS)
+                             )))
+       ;)
+       )
+  )
 
 (define (craft-cards)
   (map shrink
        ;(cards->pages
-       (make-picts "blue" "3B-" build-wand (settings
-                                            (cc-superimpose
-                                             (bg (local-bitmap "bg-cpx.png"))
-                                             (rectangle 1100 813))
-                                            WAND WAND-BONUS WAND-BONUS))
+       (map (curryr frame #:line-width 2)
+            (map (curryr inset 40)
+                 (make-picts "blue" "3B-" build-wand (settings (bg (local-bitmap "bg-cpx.png"))
+                                                               WAND WAND-BONUS WAND-BONUS)
+                             )))
        ;)
-       ))
+       )
+  )
 
 ; ---- Provide Quests
 ;(provide quests)
