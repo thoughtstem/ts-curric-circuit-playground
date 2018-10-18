@@ -257,21 +257,19 @@
 
 ;(define (quest)
 (cards->pages
- (make-picts "blue" "3A-" code-wand (settings
-                                     (cc-superimpose
-                                      (bg (local-bitmap "bg-cpx.png"))
-                                      (rectangle 1100 813))
-                                     WAND WAND-BONUS WAND-BONUS)
-             )
+ (map (curryr frame #:line-width 2)
+      (map (curryr inset 40)
+           (make-picts "blue" "3A-" code-wand (settings (bg (local-bitmap "bg-cpx.png"))
+                                                        WAND WAND-BONUS WAND-BONUS)
+                       )))
  )
 
 (cards->pages
- (make-picts "blue" "3B-" build-wand (settings
-                                      (cc-superimpose
-                                       (bg (local-bitmap "bg-cpx.png"))
-                                       (rectangle 1100 813))
-                                      WAND WAND-BONUS WAND-BONUS)
-             )
+ (map (curryr frame #:line-width 2)
+      (map (curryr inset 40)
+           (make-picts "blue" "3B-" build-wand (settings (bg (local-bitmap "bg-cpx.png"))
+                                                         WAND WAND-BONUS WAND-BONUS)
+                       )))
  )
 ; ---- Provide Quests
 ;(provide quests)
