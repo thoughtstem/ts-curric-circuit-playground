@@ -278,33 +278,33 @@
   (reusable-material
    (scale i 0.5)))
 
-;(define (code-cards)
-;(map shrink
-(cards->pages
- (make-picts "blue" "4A-" code-hot-potato (settings
-                                           (cc-superimpose
-                                            (bg (local-bitmap "bg-cpx.png"))
-                                            (rectangle 1100 813))
-                                           POTATO POTATO-BONUS POTATO-BONUS))
- )
-;))
+(define (code-cards)
+  (map shrink
+       ;(cards->pages
+       (make-picts "blue" "4A-" code-hot-potato (settings
+                                                 (cc-superimpose
+                                                  (bg (local-bitmap "bg-cpx.png"))
+                                                  (rectangle 1100 813))
+                                                 POTATO POTATO-BONUS POTATO-BONUS))
+       ;)
+       ))
 
 
-;(define (craft-cards)
-;(map shrink
-(cards->pages
- (make-picts "blue" "4B-" build-hot-potato (settings
-                                            (cc-superimpose
-                                             (bg (local-bitmap "bg-cpx.png"))
-                                             (rectangle 1100 813))
-                                            POTATO POTATO-BONUS POTATO-BONUS))
- )
-;))
+(define (craft-cards)
+  (map shrink
+       ;(cards->pages
+       (make-picts "blue" "4B-" build-hot-potato (settings
+                                                  (cc-superimpose
+                                                   (bg (local-bitmap "bg-cpx.png"))
+                                                   (rectangle 1100 813))
+                                                  POTATO POTATO-BONUS POTATO-BONUS))
+       ;)
+       ))
 
 ; ---- Provide Quests
-;(provide quest-hot-potato)
+(provide quest-hot-potato)
 
-#;(define (quest-hot-potato)
+(define (quest-hot-potato)
   (append (code-cards)
           (craft-cards)
           )
