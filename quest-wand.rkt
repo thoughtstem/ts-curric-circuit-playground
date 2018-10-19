@@ -40,7 +40,7 @@
                          (video-qr "http://bit.ly/2HV5yHn")))
 
 ; ---- Quest Card 2
-(define-image-file sparkles-img images
+(define-image-file wand-2-img images
   (scale (code \#lang circuit-playground
 
                code:blank
@@ -58,10 +58,10 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This code will create a 'sparkles' function.")
                                (instruction-goal  "The code typed in your file"))
-                         (launcher-img sparkles-img)))
+                         (launcher-img wand-2-img)))
 
 ; ---- Quest Card 3
-(define-image-file forever-img images
+(define-image-file wand-3-img images
   (scale (code (forever
                 (if (shake 15)
                     (sparkles)
@@ -75,7 +75,7 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will trigger your 'sparkles' when you shake the CPX.")
                                (instruction-goal  "Your CPX flashing blue lights when shaking"))
-                         (launcher-img forever-img)))
+                         (launcher-img wand-3-img)))
 
 ; ---- Quest Card 4
 (define colors-blank (cc-superimpose
@@ -89,7 +89,7 @@
                                    (set-lights (pick-random 0 10) blue)
                                    #,colors-blank))))
 
-(define-image-file more-colors-img images
+(define-image-file wand-4-img images
   (scale 
    (code+hints card-4-img
                (list colors-blank
@@ -103,7 +103,7 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will add different colors to your sparkles.")
                                (instruction-goal  "Your CPX flashing random colors when shaking"))
-                         (launcher-img more-colors-img)))
+                         (launcher-img wand-4-img)))
 
 ; ---- Quest Card 5
 (define tone-blank (cc-superimpose
@@ -118,7 +118,7 @@
                                      (set-lights (pick-random 0 10) white)
                                      #,tone-blank)) ))
 
-(define-image-file add-tone-img images
+(define-image-file wand-5-img images
   (scale
    (code+hints card-5-img
                (list tone-blank
@@ -132,10 +132,10 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will play a tone while changing lights.")
                                (instruction-goal  "Your CPX flashing a playing a tone."))
-                         (launcher-img add-tone-img)))
+                         (launcher-img wand-5-img)))
 
 ; ---- Quest Card 6
-(define-image-file create-riff-img images
+(define-image-file wand-6-img images
   (scale (code (define-riff magic-sound
                  (C4 0.125)
                  (C4 0.125)
@@ -153,7 +153,7 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will create a riff with tones.")
                                (instruction-goal  "Your new code in your file."))
-                         (launcher-img create-riff-img)))
+                         (launcher-img wand-6-img)))
 
 ; ---- Quest Card 7
 (define riff-blank (cc-superimpose
@@ -170,7 +170,7 @@
                              #,riff-blank)
                            ))
 
-(define-image-file add-riff-img images
+(define-image-file wand-7-img images
     (scale
      (code+hints card-7-img
                  (list riff-blank
@@ -184,7 +184,7 @@
                                (instruction-basic "Type the new code in your file.")
                                (instruction-basic "This will play a riff at the end of the sparkles.")
                                (instruction-goal  "Your CPX playing a riff at the end."))
-                         (launcher-img add-riff-img)))
+                         (launcher-img wand-7-img)))
 
 ; ---- Quest Card 8
 (define different-colors
@@ -229,32 +229,32 @@
 (define code-wand
   (list
    (with-award 0 (open-racket "save"))
-   (with-award 1 sparkles)
-   (with-award 1 add-forever)
+   (with-award 0 sparkles)
+   (with-award 2 add-forever)
    (with-award 1 add-more-colors)
    (with-award 1 add-tone)
    (with-award 1 create-riff)
    (with-award 1 add-riff)
    (choose "any"
            (list                      
-            (with-award 1 different-colors)
-            (with-award 1 different-riff)
+            (with-award 2 different-colors)
+            (with-award 2 different-riff)
             ))
    ))
 
 (define build-wand
   (list
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
-   (with-award 0 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
+   (with-award 3 wand-instructions)
    (choose "any"
            (list                      
-            (with-award 1 complete-wand-code)
+            (with-award 0 complete-wand-code)
             ))
    ))
 
@@ -271,8 +271,7 @@
                                                               WAND WAND-BONUS WAND-BONUS)
                              )))
        ;)
-       )
-  )
+       ))
 
 (define (craft-cards)
   (map shrink
@@ -283,14 +282,11 @@
                                                                WAND WAND-BONUS WAND-BONUS)
                              )))
        ;)
-       )
-  )
+       ))
 
 ; ---- Provide Quests
 (provide quest-wand)
 
 (define (quest-wand)
   (append (code-cards)
-          (craft-cards)
-          )
-  )
+          (craft-cards)))
