@@ -48,7 +48,7 @@
                (define (sparkles)
                  (repeat 5
                          (set-lights black)
-                         (set-lights (pick-random 0 10) blue)))
+                         (set-light (pick-random 0 10) blue)))
                ) 2 ))
 
 (define sparkles
@@ -79,14 +79,14 @@
 
 ; ---- Quest Card 4
 (define colors-blank (cc-superimpose
-                      (code (set-lights (pick-random 0 10) red)
-                            (set-lights (pick-random 0 10) white))
+                      (code (set-light (pick-random 0 10) red)
+                            (set-light (pick-random 0 10) white))
                       (code-blank 270 30)))
 
 (define card-4-img (code (define (sparkles)
                            (repeat 5
                                    (set-lights black)
-                                   (set-lights (pick-random 0 10) blue)
+                                   (set-light (pick-random 0 10) blue)
                                    #,colors-blank))))
 
 (define-image-file wand-4-img images
@@ -113,9 +113,9 @@
 (define card-5-img (code (define (sparkles)
                              (repeat 5
                                      (set-lights black)
-                                     (set-lights (pick-random 0 10) blue)
-                                     (set-lights (pick-random 0 10) red)
-                                     (set-lights (pick-random 0 10) white)
+                                     (set-light (pick-random 0 10) blue)
+                                     (set-light (pick-random 0 10) red)
+                                     (set-light (pick-random 0 10) white)
                                      #,tone-blank)) ))
 
 (define-image-file wand-5-img images
@@ -163,9 +163,9 @@
 (define card-7-img (code (define (sparkles)
                              (repeat 5
                                      (set-lights black)
-                                     (set-lights (pick-random 0 10) blue)
-                                     (set-lights (pick-random 0 10) red)
-                                     (set-lights (pick-random 0 10) white)
+                                     (set-light (pick-random 0 10) blue)
+                                     (set-light (pick-random 0 10) red)
+                                     (set-light (pick-random 0 10) white)
                                      (play-tone A5 0.125))
                              #,riff-blank)
                            ))
