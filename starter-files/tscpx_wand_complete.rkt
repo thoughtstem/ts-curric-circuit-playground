@@ -12,9 +12,9 @@
 (define (sparkles)
   (repeat 5
           (set-lights black)
-          (set-lights (pick-random 0 10) blue)
-          (set-lights (pick-random 0 10) red)
-          (set-lights (pick-random 0 10) white)
+          (set-light (pick-random 0 10) blue)
+          (set-light (pick-random 0 10) red)
+          (set-light (pick-random 0 10) white)
           (play-tone A5 0.125))
   (play-riff magic-sound))
 
