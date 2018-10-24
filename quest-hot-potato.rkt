@@ -281,11 +281,11 @@
 (define (code-cards)
   (map shrink
        ;(cards->pages
-       (make-picts "blue" "4A-" code-hot-potato (settings
-                                                 (cc-superimpose
-                                                  (bg (local-bitmap "bg-cpx.png"))
-                                                  (rectangle 1100 813))
-                                                 POTATO POTATO-BONUS POTATO-BONUS))
+       (map (curryr frame #:line-width 2)
+            (map (curryr inset 40)
+                 (make-picts "blue" "4A-" code-hot-potato (settings
+                                                           (bg (local-bitmap "bg-cpx.png"))
+                                                           POTATO POTATO-BONUS POTATO-BONUS))))
        ;)
        ))
 
@@ -293,11 +293,11 @@
 (define (craft-cards)
   (map shrink
        ;(cards->pages
-       (make-picts "blue" "4B-" build-hot-potato (settings
-                                                  (cc-superimpose
-                                                   (bg (local-bitmap "bg-cpx.png"))
-                                                   (rectangle 1100 813))
-                                                  POTATO POTATO-BONUS POTATO-BONUS))
+       (map (curryr frame #:line-width 2)
+            (map (curryr inset 40)
+                 (make-picts "blue" "4B-" build-hot-potato (settings
+                                                            (bg (local-bitmap "bg-cpx.png"))
+                                                            POTATO POTATO-BONUS POTATO-BONUS))))
        ;)
        ))
 
