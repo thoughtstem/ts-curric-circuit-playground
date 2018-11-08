@@ -1,0 +1,37 @@
+#lang slideshow
+
+(require pict/color)
+(require pict/shadow)
+(require pict/code)
+(require simple-qr)
+(require ts-curric-common)
+
+(require racket/runtime-path)
+(define-runtime-path images "images")
+
+(define (local-avatar s)
+  (avatar (~a (path->string images) "/" s)))
+
+
+(define (local-bitmap s)
+  (bitmap (~a (path->string images) "/" s)))
+
+
+(define quest-wand
+  (list
+   (with-award 1 (open-racket "save"))
+   (with-award 1 set-lights)
+   (with-award 1 toggle-lights)
+   (with-award 2 set-single-light)
+   (with-award 1 switch-single-light)
+   (with-award 1 switch-function)
+   (with-award 2 switch-mult-function)
+   (choose "any"
+           (list            
+            (with-award 2 circle-lights)
+            (with-award 2 rainbow-sparkle)
+            ))
+   ))
+
+(define (quest3)
+  (make-picts "blue" "Q3-" quest-wand (settings (bg (local-bitmap "bg-cpx.png")) SOUND SOUND-BONUS SOUND-BONUS)))
